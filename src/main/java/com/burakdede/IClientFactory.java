@@ -15,6 +15,7 @@
  */
 package com.burakdede;
 
+import com.burakdede.stormpath.StormpathClientFactory;
 import com.google.common.base.Optional;
 import io.dropwizard.Configuration;
 

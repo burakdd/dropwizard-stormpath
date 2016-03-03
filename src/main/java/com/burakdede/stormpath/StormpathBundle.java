@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.burakdede;
+package com.burakdede.stormpath;
 
+import com.burakdede.IClientFactory;
 import com.google.common.base.Optional;
 import io.dropwizard.Configuration;
 import io.dropwizard.ConfiguredBundle;
