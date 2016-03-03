@@ -11,11 +11,12 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-      <!-- use UTF-8 for everything -->
-      <dropwizard.version>0.8.0</dropwizard.version>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-      <skipDatabaseExport>true</skipDatabaseExport>
+    <!-- use UTF-8 for everything -->
+    <dropwizard.version>0.8.0</dropwizard.version>
+    <guava.version>19.0</guava.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <skipDatabaseExport>true</skipDatabaseExport>
   </properties>
 
   <dependencies>
@@ -33,6 +34,11 @@
       <groupId>com.stormpath.sdk</groupId>
       <artifactId>stormpath-sdk-api</artifactId>
       <version>1.0.RC8.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
     <dependency>
       <groupId>com.stormpath.sdk</groupId>
