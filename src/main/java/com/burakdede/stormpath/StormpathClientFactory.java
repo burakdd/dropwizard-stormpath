@@ -101,6 +101,9 @@ public class StormpathClientFactory {
         Application application = client.getResource(getApiRestUrl(), Application.class);
         this.application = application;
 
+        // this will initialize stormpath api
+        StormpathApi.initStormpathApi(application, client);
+
         return application;
     }
 
