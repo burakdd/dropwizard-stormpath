@@ -20,6 +20,7 @@ import com.stormpath.sdk.application.Application;
 import com.stormpath.sdk.authc.AuthenticationRequest;
 import com.stormpath.sdk.authc.AuthenticationResult;
 import com.stormpath.sdk.authc.UsernamePasswordRequest;
+import com.stormpath.sdk.client.Client;
 import com.stormpath.sdk.resource.ResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +28,31 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by burakdede on 03/03/16.
  */
-public class StormpathApi {
+public abstract class StormpathApi {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(StormpathApi.class);
 
-    private static Application application;
+    private static Application stormpathApplicaiton;
 
-    public static void initStormpathApi(Application application) {
-        StormpathApi.application = application;
+    private static Client stormpathClient;
+
+
+    public static Application getStormpathApplicaiton() {
+        return stormpathApplicaiton;
+    }
+
+    public static Client getStormpathClient() {
+        return stormpathClient;
+    }
+
+    /**
+     * This is where we inject stormpath stormpathApplicaiton instance
+     *
+     * @param application Application instance from stormpath
+     */
+    public static void initStormpathApi(Application application, Client client) {
+        StormpathApi.stormpathClient = client;
+        StormpathApi.stormpathApplicaiton = application;
     }
 
     /**
@@ -51,7 +69,7 @@ public class StormpathApi {
                 .build();
 
         try {
-            AuthenticationResult result = application.authenticateAccount(request);
+            AuthenticationResult result = stormpathApplicaiton.authenticateAccount(request);
             Account account = result.getAccount();
             LOGGER.info("Authenticating user with username: {} and password: {}",
                     new Object[]{account.getUsername(), "******"});
