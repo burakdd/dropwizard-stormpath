@@ -2,19 +2,79 @@
 
 **dropwizard-stormpath** is easy to use **bundle** around stormpath api for dropwizard applications.
 
-# Quick Intro
-
-Will update soon.
-
 # Documentation
 
 ## Setting up
 
-Will update soon.
+### Config.yaml
+
+    stormpath:
+      apiKeyId: "your api key id"
+      apiKeySecret: "your api key secret"
+      apiRestUrl: "your stormpath rest api url"
+
+### We need to add stormpath configuration factory to our main configuration factory
+
+You need stormpath client factory in your main configuration factory
+
+    @NotNull
+    @Valid
+    private StormpathClientFactory stormpathClientFactory;
+
+    public ServiceConfiguration(@JsonProperty("stormpath") StormpathClientFactory stormpathClientFactory) {
+        this.stormpathClientFactory = stormpathClientFactory;
+    }
+
+    @JsonProperty("stormpath")
+    public StormpathClientFactory getStormpathClientFactory() {
+        return stormpathClientFactory;
+    }
+
+### Create stormpath bundle
+
+On dropwizard App class create your stormpath bundle
+
+    private StormpathBundle<ServiceConfiguration> stormpathBundle =
+        new StormpathBundle<ServiceConfiguration>() {
+            @Override
+            public Optional<StormpathClientFactory> getStormpathClientFactory(Configuration configuration) {
+                return Optional.fromNullable(((ServiceConfiguration) configuration).getStormpathClientFactory());
+            }
+        };
+
+
+### Register bundle
+
+Add bundle to boostrap
+
+    bootstrap.addBundle(stormpathBundle);
+
+### Use api or extend
+
+Use or extend StormpathApi with static methods
+
+    Stormpathapi.authenticate("username", "pass");
+
+### Basic Auth
+
+Have builtin basic authenticator you can use with stormpath Account class
+
+    BasicAuthFactory basicAuthFactory = new BasicAuthFactory(new BasicAuthenticator(), "HTTP AUTH", Account.class);
+    env.jersey().register(AuthFactory.binder(basicAuthFactory));
+
 
 # Download
 
-You may need to add bintray repo
+Maven dependency
+
+    <dependency>
+        <groupId>com.burakdede</groupId>
+        <artifactId>dropwizard-stormpath</artifactId>
+        <version>0.0.2</version>
+    </dependency>
+
+
+If above dep. fails also include bintray
 
     <repositories>
         <repository>
@@ -22,14 +82,6 @@ You may need to add bintray repo
             <url>https://dl.bintray.com/burakdd/maven/</url>
         </repository>
     </repositories>
-
-Get it with maven
-
-    <dependency>
-        <groupId>com.burakdede</groupId>
-        <artifactId>dropwizard-stormpath</artifactId>
-        <version>0.0.2</version>
-    </dependency>
 
 # License
  	Copyright (C) Burak Dede.
