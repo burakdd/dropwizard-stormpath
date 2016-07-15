@@ -31,7 +31,7 @@ public class BasicAuthenticator implements Authenticator<BasicCredentials, Accou
     public Optional<Account> authenticate(BasicCredentials basicCredentials) throws AuthenticationException {
         Optional<Account> accountOptional = Optional.absent();
         final Account account = StormpathApi.authenticate(basicCredentials.getUsername(),
-                basicCredentials.getPassword());
+                                                            basicCredentials.getPassword());
         accountOptional = Optional.fromNullable(account);
 
         return accountOptional;
