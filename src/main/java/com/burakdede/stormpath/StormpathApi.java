@@ -72,9 +72,10 @@ public abstract class StormpathApi {
         try {
             AuthenticationResult result = getStormpathApplicaiton().authenticateAccount(request);
             account = result.getAccount();
-            LOGGER.info("Authenticating user with username: {} and password: {}", new Object[]{account.getUsername(), "******"});
+            LOGGER.info("Authenticating user with username: {} and password: {}", new Object[]{ account.getUsername(), "******"});
         } catch (ResourceException ex) {
-            LOGGER.error(ex.getStatus() + " : " + ex.getMessage());
+            LOGGER.error("status: {} requestId: {} message: {} ", new Object[] { ex.getStatus(), ex.getRequestId(), ex.getMessage()});
+            throw ex;
         }
 
         return account;
@@ -128,7 +129,8 @@ public abstract class StormpathApi {
 
             created = getStormpathApplicaiton().createAccount(account);
         } catch (ResourceException ex) {
-            LOGGER.error(ex.getStatus() + " : " + ex.getMessage());
+            LOGGER.error("status: {} requestId: {} message: {} ", new Object[] { ex.getStatus(), ex.getRequestId(), ex.getMessage()});
+            throw ex;
         }
 
         return created;
