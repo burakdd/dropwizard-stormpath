@@ -68,12 +68,16 @@ public abstract class StormpathApi {
     public static Account authenticate(String username, String password) throws ResourceException {
 
         AuthenticationRequest request = new UsernamePasswordRequest(username, password);
+        Account account = null;
+        try {
+            AuthenticationResult result = getStormpathApplicaiton().authenticateAccount(request);
+            account = result.getAccount();
+            LOGGER.info("Authenticating user with username: {} and password: {}", new Object[]{account.getUsername(), "******"});
+        } catch (ResourceException ex) {
+            LOGGER.error(ex.getStatus() + " : " + ex.getMessage());
+        }
 
-        AuthenticationResult result = getStormpathApplicaiton().authenticateAccount(request);
-        Account authenticated = result.getAccount();
-        LOGGER.info("Authenticating user with username: {} and password: {}", new Object[]{authenticated.getUsername(), "******"});
-
-        return authenticated;
+        return account;
     }
 
 
@@ -114,14 +118,18 @@ public abstract class StormpathApi {
      * @throws ResourceException
      */
     public static Account createUser(String givenName, String surname, String email, String password) throws ResourceException {
+        Account created = null;
+        try {
+            Account account = getStormpathClient().instantiate(Account.class);
+            account.setGivenName(givenName);
+            account.setSurname(surname);
+            account.setEmail(email);
+            account.setPassword(password);
 
-        Account account = getStormpathClient().instantiate(Account.class);
-        account.setGivenName(givenName);
-        account.setSurname(surname);
-        account.setEmail(email);
-        account.setPassword(password);
-
-        Account created = getStormpathApplicaiton().createAccount(account);
+            created = getStormpathApplicaiton().createAccount(account);
+        } catch (ResourceException ex) {
+            LOGGER.error(ex.getStatus() + " : " + ex.getMessage());
+        }
 
         return created;
     }
