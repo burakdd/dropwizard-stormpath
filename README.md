@@ -70,7 +70,7 @@ Maven dependency
     <dependency>
         <groupId>com.burakdede</groupId>
         <artifactId>dropwizard-stormpath</artifactId>
-        <version>0.0.5</version>
+        <version>0.0.6</version>
     </dependency>
 
 
